@@ -21,6 +21,15 @@ function handleGet($db, $input) {
         exit();
     }
 
+    $datetime = new DateTime();
+    $expires = new DateTime($row["Expires"]);
+
+    if ($expires < $datetime->format('Y-m-d H:i:s')) {
+        http_response_code(410);
+        echo json_encode(["message" => "Token has expired."]);
+        exit();
+    }
+
     http_response_code(200);
     echo json_encode(["message" => "Successfully verified."]);
 }
