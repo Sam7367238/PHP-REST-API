@@ -15,9 +15,7 @@ $routes = [
 if (array_key_exists($uri, $routes)) {
     require $routes[$uri];
 } else {
-    echo $uri;
-    echo "<br>";
     http_response_code(404);
-    echo "Page not found.";
+    echo json_encode(["message" => "Endpoint not found."]);
     die();
 }
