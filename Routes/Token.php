@@ -22,9 +22,11 @@ function handleGet($db, $input) {
     }
 
     $datetime = new DateTime();
+    // $datetime -> setTimezone(new DateTimeZone("UTC"));
     $expires = new DateTime($row["Expires"]);
+    $expires = $expires -> format("Y-m-d H:i:s");
 
-    if ($expires < $datetime->format('Y-m-d H:i:s')) {
+    if ($expires < $datetime -> format('Y-m-d H:i:s')) {
         http_response_code(410);
         echo json_encode(["message" => "Token has expired."]);
         exit();
