@@ -18,8 +18,12 @@
         <input type="submit" id="submission">
     </form>
 
-    <script>
+    <script type="module">
+        import {setCookie, getCookie} from "./FrontEnd/Cookie.js";
+
         const form = document.getElementById("registration");
+
+        let success = false;
 
         form.addEventListener("submit", async function(event) {
             event.preventDefault();
@@ -28,7 +32,6 @@
             const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
 
             try {
-                console.log(jsonData);
                 const response = await fetch("http://localhost:3000/users", {
                     method: "POST",
                     headers: {
@@ -43,6 +46,7 @@
                     const p = document.createElement("p");
                     p.textContent = "Successfully Registered";
                     document.body.appendChild(p);
+                    success = true;
                 } else if (response.status == 409) {
                     const p = document.createElement("p");
                     p.textContent = "A user with the same username already exists.";
@@ -51,6 +55,37 @@
                     const p = document.createElement("p");
                     p.textContent = "Please input all fields.";
                     document.body.appendChild(p);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+
+            if (!success) {
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:3000/tokens", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: jsonData
+                });
+
+                const json = await response.json();
+
+                if (response.status == 404) {
+                    const p = document.createElement("p");
+                    p.textContent = "Something went wrong.";
+                    document.body.appendChild(p);
+                } else if (response.status == 400) {
+                    const p = document.createElement("p");
+                    p.textContent = "Something went wrong.";
+                    document.body.appendChild(p);
+                } else if (response.status == 201) {
+                    setCookie("Token", json.token, 1);
+                    window.location.href = "/dashboard"
                 }
             } catch (e) {
                 console.error(e);
