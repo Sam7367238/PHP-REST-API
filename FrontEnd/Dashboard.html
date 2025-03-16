@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <script type="module">
+        import {verifyToken, getCookie} from "./FrontEnd/Cookie.js";
+
+        const result = await verifyToken();
+
+        if (result == false) {
+            window.location.href = "/register";
+
+        } else if (result == true) {
+
+            const userFetch = await fetch("http://localhost:3000/tokens", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({GetInfo: "true", Token: getCookie("Token")})
+            });
+
+            if (userFetch.ok) {
+                const json = await userFetch.json();
+                console.log(json);
+
+                const p = document.createElement("p");
+                p.textContent = `Hello ${json.Username}`;
+                document.body.appendChild(p);
+            }
+        }
+    </script>
+</body>
+</html>
