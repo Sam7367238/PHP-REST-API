@@ -9,7 +9,9 @@ $uri = parse_url($_SERVER["REQUEST_URI"])["path"];
 $routes = [
     "/" => "Routes/Introduction.php",
     "/users" => "Routes/Users.php",
-    "/tokens" => "Routes/Token.php"
+    "/tokens" => "Routes/Token.php",
+    "/register" => "FrontEnd/Register.html",
+    "/dashboard" => "FrontEnd/Dashboard.html"
 ];
 
 if (array_key_exists($uri, $routes)) {
