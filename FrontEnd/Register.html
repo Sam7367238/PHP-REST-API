@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form id="registration">
+        <label for="Username">Username</label>
+        <br>
+        <input type="text" name="Username">
+        <br>
+        <label for="Password">Password</label>
+        <br>
+        <input type="password" name="Password">
+        <br>
+        <input type="submit" id="submission">
+    </form>
+
+    <script>
+        const form = document.getElementById("registration");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const jsonData = JSON.stringify(Object.fromEntries(formData.entries()));
+
+            try {
+                console.log(jsonData);
+                const response = await fetch("http://localhost:3000/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: jsonData
+                });
+
+                const json = await response.json();
+                
+                if (response.status == 201) {
+                    const p = document.createElement("p");
+                    p.textContent = "Successfully Registered";
+                    document.body.appendChild(p);
+                } else if (response.status == 409) {
+                    const p = document.createElement("p");
+                    p.textContent = "A user with the same username already exists.";
+                    document.body.appendChild(p);
+                } else if (response.status == 400) {
+                    const p = document.createElement("p");
+                    p.textContent = "Please input all fields.";
+                    document.body.appendChild(p);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+        
+    </script>
+</body>
+</html>
