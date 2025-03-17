@@ -7,11 +7,12 @@ $db = new Database($config["Database"], "root", "Ayman_Database");
 $uri = parse_url($_SERVER["REQUEST_URI"])["path"];
 
 $routes = [
-    "/" => "Routes/Introduction.php",
+    "/" => "FrontEnd/HTML/Home.html",
     "/users" => "Routes/Users.php",
     "/tokens" => "Routes/Token.php",
     "/register" => "FrontEnd/HTML/Register.html",
-    "/dashboard" => "FrontEnd/HTML/Dashboard.html"
+    "/dashboard" => "FrontEnd/HTML/Dashboard.html",
+    "/login" => "FrontEnd/HTML/Login.html"
 ];
 
 if (array_key_exists($uri, $routes)) {
