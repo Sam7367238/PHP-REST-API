@@ -47,3 +47,20 @@ export async function verifyToken() {
         return true;
     }
 }
+
+export async function getUserInfo() {
+    const userFetch = await fetch("http://localhost:3000/tokens", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ GetInfo: "true", Token: getCookie("Token") })
+    });
+
+    if (userFetch.ok) {
+        const json = await userFetch.json();
+        return json;
+    } else {
+        return null;
+    }
+}
