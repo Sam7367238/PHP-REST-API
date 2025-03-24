@@ -7,7 +7,7 @@
 </head>
 <body>
     <script type="module">
-        import { getUserInfo, verifyToken, getCookie } from "./FrontEnd/JavaScript/Cookie.js";
+        import { getUserInfo, verifyToken, getCookie, setCookie } from "./FrontEnd/JavaScript/Cookie.js";
 
         const result = await verifyToken();
 
@@ -19,8 +19,18 @@
 
         if (user) {
             const p = document.createElement("p");
+            const logout = document.createElement("button");
+
+            logout.textContent = "Logout";
+            logout.addEventListener("click", function () {
+                setCookie("Token", null, null);
+                window.location.href = "/login";
+            });
+
             p.textContent = `Hello ${user.Username}`;
+
             document.body.appendChild(p);
+            document.body.appendChild(logout);
         }
     </script>
 </body>
