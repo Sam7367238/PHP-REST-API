@@ -26,7 +26,7 @@
         const authenticated = await verifyToken();
 
         if (authenticated == true) {
-            window.location.href = "/dashboard";
+            window.location.href = "/";
         }
 
         const form = document.getElementById("registration");
@@ -93,7 +93,7 @@
                     document.body.appendChild(p);
                 } else if (response.status == 201) {
                     setCookie("Token", json.token, 1);
-                    window.location.href = "/dashboard"
+                    window.location.href = "/"
                 }
             } catch (e) {
                 console.error(e);
