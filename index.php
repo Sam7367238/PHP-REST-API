@@ -11,7 +11,6 @@ $routes = [
     "/users" => "Routes/Users.php",
     "/tokens" => "Routes/Token.php",
     "/register" => "FrontEnd/HTML/Register.html",
-    "/dashboard" => "FrontEnd/HTML/Dashboard.html",
     "/login" => "FrontEnd/HTML/Login.html"
 ];
 
@@ -19,6 +18,6 @@ if (array_key_exists($uri, $routes)) {
     require $routes[$uri];
 } else {
     http_response_code(404);
-    echo json_encode(["message" => "Endpoint not found."]);
+    echo json_encode(["message" => "Route not found."]);
     die();
 }
